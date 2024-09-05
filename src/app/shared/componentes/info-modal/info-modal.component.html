@@ -79,27 +79,43 @@
         processo eleitoral. Nosso compromisso é fornecer informações precisas e imparciais, respeitando o processo
         democrático e a integridade das eleições.</p>
 
-    <h3>Dados dos Desenvolvedores</h3>
-    <p>Para qualquer dúvida ou contato com a equipe responsável pelo desenvolvimento deste site, utilize as informações
-        abaixo:</p>
-    <ul>
-        <li><strong>Nome do Desenvolvedor Principal:</strong> Caio Vinicius De Lima</li>
-        <li><strong>GitHub:</strong> <a href="https://github.com/caiovlima" target="_blank">github.com/caiovlima</a>
+    <h3>Como Contribuir:</h3>
+    <p>Para contribuir com o projeto, você pode verificar se há issues abertas ou fazer suas próprias melhorias, siga as instruções abaixo:</p>
+    <ol>
+        <li>Acesse o repositório do projeto <strong>VotoCerto</strong> no GitHub:
+            <a href="https://github.com/caiovlima/VotoCerto" target="_blank">github.com/caiovlima/VotoCerto</a>
         </li>
-    </ul>
+        <li>Clone o projeto em sua máquina local usando o comando:</li>
+        <pre><code>git clone https://github.com/caiovlima/VotoCerto.git</code></pre>
+        <li>Instale as dependências necessárias:</li>
+        <ul>
+            <li><strong>Angular:</strong> Versão mínima 18</li>
+            <li><strong>Node.js:</strong> Versão mínima 21</li>
+        </ul>
+        <li>Crie uma nova branch para sua feature com base na branch <strong>develop</strong>:</li>
+        <pre><code>git checkout develop</code></pre>
+        <pre><code>git checkout -b sua-feature-branch</code></pre>
+        <li>Faça suas alterações no código.</li>
+        <li>Certifique-se de que os builds estão passando com sucesso.</li>
+        <li>Faça o push das suas alterações para o repositório:</li>
+        <pre><code>git push origin sua-feature-branch</code></pre>
+    </ol>
+
+    <mat-divider></mat-divider>
 
     <mat-checkbox [(ngModel)]="isChecked" required *ngIf="!lastAcceptedDateTime">
         Eu declaro que li e estou de acordo com os critérios de aceite e as políticas de privacidade.
     </mat-checkbox>
 
-     <div *ngIf="lastAcceptedDateTime">
+    <div *ngIf="lastAcceptedDateTime">
         <p>Você confirmou os critérios de aceite e as políticas de privacidade em:</p>
         <p><strong>{{ lastAcceptedDateTime | date:'dd MMMM yyyy HH:mm'}}</strong></p>
-     </div>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <!-- Botão para fechar o modal -->
     <button mat-button (click)="onClose()" *ngIf="lastAcceptedDateTime">Fechar</button>
     <!-- Botão para confirmar, habilitado apenas se o checkbox estiver marcado -->
-    <button mat-button (click)="onConfirm()" *ngIf="!lastAcceptedDateTime" [disabled]="!isChecked" cdkFocusInitial>Confirmar</button>
+    <button mat-button (click)="onConfirm()" *ngIf="!lastAcceptedDateTime" [disabled]="!isChecked"
+        cdkFocusInitial>Confirmar</button>
 </mat-dialog-actions>

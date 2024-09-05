@@ -8,7 +8,7 @@
         </mat-form-field>
 
         <p>Total de Candidatos: <strong>{{candidatos.length}}</strong></p>
-
+        <p *ngIf="filteredCandidatos.length !== candidatos.length">Filtrados: <strong>{{filteredCandidatos.length}}</strong></p>
     </ng-container>
 
 
