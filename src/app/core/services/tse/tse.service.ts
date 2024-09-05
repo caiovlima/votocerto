@@ -41,6 +41,7 @@ export class TseService {
   }
 
   getCandidatoDetalhe(candidatoRequest: CandidatoDetalheRequest): Observable<Candidato> {
+    console.log('Candidato Detalhe Rrequest: ', candidatoRequest);
     const cacheKey = `candidato-${candidatoRequest.ano_eleicao}-${candidatoRequest.codigo_cidade}-${candidatoRequest.id_eleicao}-${candidatoRequest.id_candidato}`;
     return this.fetchWithCache<Candidato>(
       cacheKey,

@@ -6,6 +6,7 @@ import { CandidatosFiltroComponent } from "../candidatos-filtro/candidatos-filtr
 import { UseStatesService } from '../../../core/services/states/use-states.service';
 import { Router } from '@angular/router';
 import { UtilService } from '../../utils/services/util.service';
+import { Eleicao } from '../../../core/models/Ordinaria';
 
 @Component({
   selector: 'app-candidatos-lista',
@@ -18,7 +19,7 @@ export class CandidatosListaComponent {
 
   candidatos: CandidatoResumo[] = [];
   filteredCandidatos: CandidatoResumo[] = [];
-
+  atual_eleicao: Eleicao = {} as Eleicao;
 
   constructor(private useStatesService: UseStatesService,  private router: Router, private utilService: UtilService) {
     this.signalBeacon();
@@ -26,6 +27,8 @@ export class CandidatosListaComponent {
 
   private signalBeacon(): void {
     effect(() => {
+      this.atual_eleicao = this.useStatesService.eleicao_selecionada();
+      console.log('candidato lista eleicao selecionada: ', this.atual_eleicao);
       if (this.useStatesService.candidatos() !== null && this.useStatesService.candidatos().length > 0) {
         this.candidatos = this.useStatesService.candidatos();
         this.filteredCandidatos = this.candidatos;

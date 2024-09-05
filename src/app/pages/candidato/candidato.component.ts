@@ -19,12 +19,11 @@ import { DialogType } from '../../shared/enums/dialog.enum';
 export class CandidatoComponent implements OnInit {
 
   candidato: Candidato = {} as Candidato;
-  id_eleicao = '2045202024';
-  ano_eleicao = '2024';
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private route: ActivatedRoute, private router: Router, private utilService: UtilService) {
 
   }
+
 
   ngOnInit(): void {
     const idCandidato = this.route.snapshot.paramMap.get('id_candidato');
@@ -35,7 +34,7 @@ export class CandidatoComponent implements OnInit {
       throw new Error('ID da cidade ou do candidato não encontrado na rota');
     }
 
-    this.detalhesDoCandidato({ano_eleicao: this.ano_eleicao, id_eleicao: this.id_eleicao, codigo_cidade: idCidade, id_candidato: idCandidato});
+    this.detalhesDoCandidato({ano_eleicao: this.useStatesService.eleicao_selecionada().ano, id_eleicao: this.useStatesService.eleicao_selecionada().id, codigo_cidade: idCidade, id_candidato: idCandidato});
 
   }
 
@@ -81,11 +80,11 @@ export class CandidatoComponent implements OnInit {
   }
 
   visualizarViceCandidato(vice: Vice): void {
-    this.detalhesDoCandidato({ ano_eleicao: this.ano_eleicao, id_eleicao: this.id_eleicao, codigo_cidade: vice.sg_UE, id_candidato: vice.sq_CANDIDATO.toString() });
+    this.detalhesDoCandidato({ ano_eleicao: this.useStatesService.eleicao_selecionada().ano, id_eleicao: this.useStatesService.eleicao_selecionada().id, codigo_cidade: vice.sg_UE, id_candidato: vice.sq_CANDIDATO.toString() });
   }
 
   visualizarCandidaturaRetroativa(eleicaoAnterior: EleicaoAnterior): void {
-    this.detalhesDoCandidato({ano_eleicao: eleicaoAnterior.nrAno.toString(), codigo_cidade: eleicaoAnterior.sgUe, id_candidato: eleicaoAnterior.id, id_eleicao: eleicaoAnterior.idEleicao});
+    this.detalhesDoCandidato({ano_eleicao: eleicaoAnterior.nrAno, codigo_cidade: eleicaoAnterior.sgUe, id_candidato: eleicaoAnterior.id, id_eleicao: eleicaoAnterior.idEleicao});
   }
 
   buscarIcone(site: string): string {

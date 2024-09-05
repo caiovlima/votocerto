@@ -4,8 +4,8 @@ import { Eleicao } from "./Ordinaria";
 export interface CandidatoDetalheRequest {
     codigo_cidade: string,
     id_candidato: string,
-    ano_eleicao: string,
-    id_eleicao: string
+    ano_eleicao: number,
+    id_eleicao: number
 }
 
 export interface Cargo {
@@ -73,7 +73,7 @@ export interface EleicaoAnterior {
     id: string;
     nomeUrna: string;
     nomeCandidato: string;
-    idEleicao: string;
+    idEleicao: number;
     sgUe: string;
     local: string;
     cargo: string;

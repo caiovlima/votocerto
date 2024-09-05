@@ -29,9 +29,20 @@ export class CandidatosFiltroComponent {
 
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private utilService: UtilService) {
+    this.signalBeacon();
     this.buscarCargos();
-    // this.buscarEleicoesOrdinarias();
+    this.buscarEleicoesOrdinarias();
     this.buscarEstados();
+  }
+
+  private signalBeacon(): void {
+    effect(() => {
+      if (this.useStatesService.eleicao_selecionada()) {
+        this.utilService.closeDialog();
+        console.log(`Temos autal eleicao: `, this.useStatesService.eleicao_selecionada());
+        this.atual_eleicao = this.useStatesService.eleicao_selecionada();
+      }
+    });
   }
 
   private buscarCargos(): void {

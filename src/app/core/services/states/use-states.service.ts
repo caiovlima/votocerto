@@ -9,20 +9,20 @@ export class UseStatesService {
   candidatos = signal<CandidatoResumo[]>([]);
   candidato = signal<Candidato>({} as Candidato);
   eleicao_selecionada = signal<Eleicao>({
-    id: 2045202024,
-    siglaUF: null,
-    localidadeSgUe: null,
-    ano: 2024,
-    codigo: null,
-    nomeEleicao: "Eleições Municipais 2024",
-    tipoEleicao: "O",
-    turno: null,
-    tipoAbrangencia: "M",
-    dataEleicao: "",
-    codSituacaoEleicao: null,
-    descricaoSituacaoEleicao: null,
-    descricaoEleicao: "2024"
-  });
+    // id: 2045202024,
+    // siglaUF: null,
+    // localidadeSgUe: null,
+    // ano: 2024,
+    // codigo: null,
+    // nomeEleicao: "Eleições Municipais 2024",
+    // tipoEleicao: "O",
+    // turno: null,
+    // tipoAbrangencia: "M",
+    // dataEleicao: "",
+    // codSituacaoEleicao: null,
+    // descricaoSituacaoEleicao: null,
+    // descricaoEleicao: "2024"
+  } as Eleicao);
 
   selectedMunicipio = signal<string>("")
   selectedEstado = signal<string>("");
