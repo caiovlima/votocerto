@@ -66,7 +66,7 @@ export class CandidatosFiltroComponent {
   private buscarEstados(): void {
     this.tseService.getEstadosEleitorais(this.useStatesService.eleicao_selecionada().id).subscribe({
       next: (response: EstadosResponse) => {
-        this.estados = response.ues.filter((item: { nome: string; }) => item.nome !== 'BRASIL');
+        this.estados = response.ues.filter((item: { nome: string; }) => item.nome !== 'BRASIL' && item.nome !== 'DISTRITO FEDERAL');
       },
       error: (error: any) => {
         this.utilService.openDialog(DialogType.Error);
