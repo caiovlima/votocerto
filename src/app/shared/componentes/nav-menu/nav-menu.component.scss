@@ -1,0 +1,28 @@
+.nav-container {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Drop shadow */
+    margin-bottom: 3%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+nav a {
+  text-transform: uppercase;
+  margin-left: 16px;
+}
+
+.content {
+  padding: 16px;
+  min-height: calc(100vh - 64px); // Ajuste para altura da toolbar
+}
+
+.icon-text-container {
+  display: flex;
+  align-items: center; // Alinha verticalmente o ícone e o texto
+  cursor: pointer;
+}
+
+.icon-text {
+  margin-left: 8px; // Ajuste o espaçamento entre o ícone e o texto
+}
