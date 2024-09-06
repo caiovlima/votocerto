@@ -1,4 +1,4 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../../module/shared-module';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,42 +27,24 @@ export class CandidatosFiltroComponent {
   eleicoes: Eleicao[] = [];
   atual_eleicao: Eleicao = {} as Eleicao;
 
+  hide_municipios = false;
+
 
   constructor(private tseService: TseService, private useStatesService: UseStatesService, private utilService: UtilService) {
-    this.signalBeacon();
-    this.buscarCargos();
     this.buscarEleicoesOrdinarias();
-    this.buscarEstados();
+    this.buscarCargos();
   }
 
-  private signalBeacon(): void {
-    effect(() => {
-      if (this.useStatesService.eleicao_selecionada()) {
-        this.utilService.closeDialog();
-        console.log(`Temos autal eleicao: `, this.useStatesService.eleicao_selecionada());
-        this.atual_eleicao = this.useStatesService.eleicao_selecionada();
-      }
-    });
-  }
 
   private buscarCargos(): void {
     this.cargos = this.tseService.getCargos();
     this.cargos_filtrados = this.cargos.filter(cargo => cargo.abrangencia === this.useStatesService.eleicao_selecionada().tipoAbrangencia);
   }
 
-  private selecionarEleicaoAtual(): void {
-    this.useStatesService.eleicao_selecionada.set(this.eleicoes.reduce((maisRecente, eleicaoAtual) => {
-      return eleicaoAtual.ano > maisRecente.ano ? eleicaoAtual : maisRecente;
-    }, this.eleicoes[0]));
-    this.onAnoEleicaoChange(this.useStatesService.eleicao_selecionada());
-  }
-
   private buscarEleicoesOrdinarias(): void {
     this.tseService.getEleicoes().subscribe({
       next: (eleicoes: Eleicao[]) => {
-        console.log(eleicoes);
         this.eleicoes = eleicoes;
-        this.selecionarEleicaoAtual();
       },
       error: (error: any) => {
         this.utilService.openDialog(DialogType.Error);
@@ -105,41 +87,49 @@ export class CandidatosFiltroComponent {
   }
 
   private buscarCandidatos(): void {
-    this.tseService.getCandidatos({ ano_eleicao: this.useStatesService.eleicao_selecionada().ano, id_eleicao: this.useStatesService.eleicao_selecionada().id, codigo_cargo: this.useStatesService.selectedCargo(), codigo_cidade: this.useStatesService.selectedMunicipio() }).subscribe({
-      next: (response: CandidatosResponse) => {
-        this.useStatesService.candidatos.set(response.candidatos.sort((a, b) => a.nomeCompleto.localeCompare(b.nomeCompleto)));
-      },
-      error: (error: any) => {
-        console.error('Erro na requisição:', error);
-        this.utilService.openDialog(DialogType.Error);
-      },
-      complete: () => {
-        console.info('Requisição completa');
-      }
-    });
+    if (this.useStatesService.eleicao_selecionada().tipoAbrangencia === 'F') this.useStatesService.selectedMunicipio.set(this.useStatesService.selectedEstado());
+
+    if (this.useStatesService.selectedCargo() !== '' && this.useStatesService.selectedEstado() !== '') {
+      this.tseService.getCandidatos({ ano_eleicao: this.useStatesService.eleicao_selecionada().ano, id_eleicao: this.useStatesService.eleicao_selecionada().id, codigo_cargo: this.useStatesService.selectedCargo(), codigo_cidade: this.useStatesService.selectedMunicipio() }).subscribe({
+        next: (response: CandidatosResponse) => {
+          this.useStatesService.candidatos.set(response.candidatos.sort((a, b) => a.nomeCompleto.localeCompare(b.nomeCompleto)));
+        },
+        error: (error: any) => {
+          console.error('Erro na requisição:', error);
+          this.utilService.openDialog(DialogType.Error);
+        },
+        complete: () => {
+          console.info('Requisição completa');
+        }
+      });
+    }
   }
 
   onEstadoChange(sigla: string): void {
     this.useStatesService.selectedEstado.set(sigla);
     this.buscarMunicipios();
+    this.buscarCandidatos();
   }
 
   onMunicipioChange(municipio: Municipio): void {
     this.useStatesService.selectedMunicipio.set(municipio.codigo);
-
-    if (this.useStatesService.selectedCargo() !== "") this.buscarCandidatos();
+    this.buscarCandidatos();
   }
 
   onAnoEleicaoChange(eleicao: Eleicao): void {
-    console.log(`Ano Eleição: `, eleicao);
+    if (eleicao.tipoAbrangencia === "F") {
+      this.hide_municipios = true;
+    }
     this.useStatesService.eleicao_selecionada.set(eleicao);
     this.cargos_filtrados = this.cargos.filter(cargo => cargo.abrangencia === eleicao.tipoAbrangencia);
+    this.buscarEstados();
+    this.buscarCandidatos();
   };
 
 
   onCargosChange(valor: string): void {
     this.useStatesService.selectedCargo.set(valor);
-
-    if (this.useStatesService.selectedMunicipio() !== "") this.buscarCandidatos();
+    this.buscarCandidatos();
   }
+  
 }

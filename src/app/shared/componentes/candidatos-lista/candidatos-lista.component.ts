@@ -28,7 +28,6 @@ export class CandidatosListaComponent {
   private signalBeacon(): void {
     effect(() => {
       this.atual_eleicao = this.useStatesService.eleicao_selecionada();
-      console.log('candidato lista eleicao selecionada: ', this.atual_eleicao);
       if (this.useStatesService.candidatos() !== null && this.useStatesService.candidatos().length > 0) {
         this.candidatos = this.useStatesService.candidatos();
         this.filteredCandidatos = this.candidatos;
@@ -38,7 +37,6 @@ export class CandidatosListaComponent {
 
   
   detalhesCandidato(candidato: CandidatoResumo): void {
-    console.log(`chamar detalhe candidato`, candidato);
     this.router.navigate(['/cidade', this.useStatesService.selectedMunicipio(), 'candidato', candidato.id]);
   }
   

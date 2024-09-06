@@ -34,6 +34,7 @@ export class TseService {
 
   getCandidatos(candidatosRequest: CandidatosRequest): Observable<CandidatosResponse> {
     const cacheKey = `candidatos-${candidatosRequest.ano_eleicao}-${candidatosRequest.codigo_cidade}-${candidatosRequest.id_eleicao}-${candidatosRequest.codigo_cargo}`;
+    
     return this.fetchWithCache<CandidatosResponse>(
       cacheKey,
       () => this.http.get<CandidatosResponse>(`${this.baseUrl}/candidatura/listar/${candidatosRequest.ano_eleicao}/${candidatosRequest.codigo_cidade}/${candidatosRequest.id_eleicao}/${candidatosRequest.codigo_cargo}/candidatos`)
@@ -41,7 +42,6 @@ export class TseService {
   }
 
   getCandidatoDetalhe(candidatoRequest: CandidatoDetalheRequest): Observable<Candidato> {
-    console.log('Candidato Detalhe Rrequest: ', candidatoRequest);
     const cacheKey = `candidato-${candidatoRequest.ano_eleicao}-${candidatoRequest.codigo_cidade}-${candidatoRequest.id_eleicao}-${candidatoRequest.id_candidato}`;
     return this.fetchWithCache<Candidato>(
       cacheKey,

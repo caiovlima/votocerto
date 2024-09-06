@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Candidato, CandidatoResumo } from '../../models/Candidato';
 import { Eleicao } from '../../models/Ordinaria';
 
@@ -43,5 +43,11 @@ export class UseStatesService {
   hide(): void {
     this.isLoading.set(false);
   }
+
+  // isEleicaoSelecionadaValida = computed(() => {
+  //   const eleicao = this.eleicao_selecionada();
+  //   return !!eleicao.id && !!eleicao.ano;
+  //   // Verifique outras propriedades conforme necessário
+  // });
 
 }

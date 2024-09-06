@@ -2,7 +2,7 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Ano Eleitoral</mat-label>
-        <mat-select [(value)]="atual_eleicao" (selectionChange)="onAnoEleicaoChange($event.value)">
+        <mat-select (selectionChange)="onAnoEleicaoChange($event.value)">
             <mat-option *ngFor="let eleicao of eleicoes" [value]="eleicao">
                 {{eleicao.ano}}
             </mat-option>
@@ -18,7 +18,7 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" *ngIf="!hide_municipios">
         <mat-label>Selecione a Cidade</mat-label>
         <mat-select (selectionChange)="onMunicipioChange($event.value)">
             <mat-option *ngFor="let municipio of municipios" [value]="municipio">

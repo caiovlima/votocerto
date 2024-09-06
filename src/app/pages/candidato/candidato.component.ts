@@ -63,7 +63,7 @@ export class CandidatoComponent implements OnInit {
   }
 
   detalhesDoCandidato(candidatoDetalheRequest: CandidatoDetalheRequest): void {
-
+    console.log('candidato detalhe request: ', candidatoDetalheRequest);
     this.tseService.getCandidatoDetalhe({ano_eleicao: candidatoDetalheRequest.ano_eleicao, id_eleicao: candidatoDetalheRequest.id_eleicao, codigo_cidade: candidatoDetalheRequest.codigo_cidade, id_candidato: candidatoDetalheRequest.id_candidato }).subscribe({
       next: (response: Candidato) => {
         this.useStatesService.candidato.set(response);
